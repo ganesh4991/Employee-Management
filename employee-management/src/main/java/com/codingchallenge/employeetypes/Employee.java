@@ -28,7 +28,7 @@ public class Employee {
 	private String employementType;
 	*/
 	
-	Employee(String firstName,String middleName,String lastName){
+	public Employee(String firstName,String middleName,String lastName){
 		
 		this.firstName=firstName;
 		this.middleName=middleName;
