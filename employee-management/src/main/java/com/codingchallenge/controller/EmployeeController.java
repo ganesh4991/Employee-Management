@@ -3,8 +3,11 @@ package com.codingchallenge.controller;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collection;
 import java.util.List;
 import java.util.Scanner;
+
+import javax.persistence.EntityManager;
 
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +30,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 @RestController
-public class AddEmployeeController {
+public class EmployeeController {
 
 	@Autowired
 	private EmployeeRepository employees;
@@ -39,8 +42,7 @@ public class AddEmployeeController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/fileupload")
-	public String jsonFileUpload(@RequestParam("name") String name, @RequestParam("file") MultipartFile file,
-			RedirectAttributes redirectAttributes) {
+	public String jsonFileUpload(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
 		String json = "";
 		try {
 			InputStream inputStream = file.getInputStream();
@@ -51,15 +53,36 @@ public class AddEmployeeController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 
-		TypeToken<List<Employee>> token = new TypeToken<List<Employee>>(){};
-		Gson gson=new Gson();
-		List<Employee> newEmployees = gson.fromJson(json, token.getType());	
+		TypeToken<List<Employee>> token = new TypeToken<List<Employee>>() {
+		};
+		Gson gson = new Gson();
+		List<Employee> newEmployees = gson.fromJson(json, token.getType());
 		for (Employee e : newEmployees) {
 			employees.save(e);
 		}
 
-		return json;
+		return "File Uploaded";
 	}
+
+	@RequestMapping(value = "/employee", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Collection<Employee>> getAllEmployees() {
+
+		return new ResponseEntity<Collection<Employee>>(employees.findAll(), HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/editemployee", method = RequestMethod.GET)
+	public String getEmployeeById(@RequestParam("id") long id) {
+		
+		Employee e=employees.findOne(id);
+		String html="<html><body><form method=\"POST\" enctype=\"html/text\" action=\"/editemployee\"><table><tr><td>Employee Id:</td><td><input type=\"text\" name=\"id\" value=\""+e.getEmployeeId()+"\" readonly=\"readonly\"/></td></tr><tr><td>First Name:</td><td><input type=\"text\" name=\"firstName\" \" value=\""+e.getFirstName()+"\"/></td></tr><tr><td>Last Name:</td><td><input type=\"text\" name=\"lastName\" value=\""+e.getLastName()+"\"/></td></tr><tr><td></td><td><input type=\"submit\" value=\"Save\" /></td></tr></table></form></body></html>";
+		return html;
+	}
+	
+	@RequestMapping(value = "/editemployee", method = RequestMethod.POST)
+	public String editEmployeeById(@RequestParam("id") long id,@RequestParam("firstName") String firstName,@RequestParam("lastName") String lastName) {
+		
+		return "Employee details updated";
+	}
+
 }
