@@ -22,12 +22,8 @@ public class AddEmployeeApplication {
 	private EmployeeRepository employees;
 		
 	@RequestMapping(value = "/employee", method = RequestMethod.POST,consumes=MediaType.APPLICATION_JSON_VALUE)//,produces=MediaType.APPLICATION_JSON_VALUE)
-	public String addEmployee(@RequestBody Employee employee) {
-		Employee saved=employees.save(employee);
-		
-		if(saved!=null)
-			return "Employee: "+saved.getFirstName()+" added ";
-		else
-			return "Employee not added";
+	public ResponseEntity<Employee>addEmployee(@RequestBody Employee employee) {
+		Employee savedEmployee=employees.save(employee);
+		return new ResponseEntity<Employee>(savedEmployee,HttpStatus.OK);
 	}
 }
