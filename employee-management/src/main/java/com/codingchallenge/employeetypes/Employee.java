@@ -69,7 +69,7 @@ public class Employee {
 	private String gender;
 	private String address;
 	private String emailId;
-	private EmploymentType employementTypeDetails;
+	//private EmploymentType employementTypeDetails;
 	
 	
 	public String getFirstName() {
