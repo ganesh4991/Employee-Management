@@ -10,6 +10,46 @@ import javax.persistence.Id;
 @Entity
 public class Employee {
 
+	public String getSsn() {
+		return ssn;
+	}
+
+	public void setSsn(String ssn) {
+		this.ssn = ssn;
+	}
+
+	public Date getDob() {
+		return dob;
+	}
+
+	public void setDob(Date dob) {
+		this.dob = dob;
+	}
+
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getEmailId() {
+		return emailId;
+	}
+
+	public void setEmailId(String emailId) {
+		this.emailId = emailId;
+	}
+
 	public long getEmployeeId() {
 		return employeeId;
 	}
@@ -24,17 +64,13 @@ public class Employee {
 	private String firstName;
 	private String middleName;
 	private String lastName;
-	
-	/*
 	private String ssn;
 	private Date dob;
-	private Date employeeJoinDate;
-	private Date employeeEndDate;
 	private String gender;
 	private String address;
 	private String emailId;
-	private String employementType;
-	*/
+	private EmploymentType employementTypeDetails;
+	
 	
 	public String getFirstName() {
 		return firstName;
