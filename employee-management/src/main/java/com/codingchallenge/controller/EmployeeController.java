@@ -120,7 +120,10 @@ public class EmployeeController {
 	@RequestMapping(value = "/editemployee", method = RequestMethod.POST)
 	public String editEmployeeById(@RequestParam("id") long id, @RequestParam("firstName") String firstName,
 			@RequestParam("lastName") String lastName) {
-
+		Employee e=employees.findOne(id);
+		e.setFirstName(firstName);
+		e.setLastName(lastName);
+		employees.save(e);
 		return "Employee details updated";
 	}
 
