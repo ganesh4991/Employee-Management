@@ -1,5 +1,5 @@
 1.  Run the jar or import the project and run the main application
 2.  localhost:8080/uploadfile.html choose json file to be uploaded
-3.  localhost:8080/Addemployee.html to add emplyee details using html page
+3.  localhost:8080/addemployeeUI.html to add emplyee details using html page
 4.  localhost:8080/getemployees to retrieve all the values in json format
-5.  localhost:8080/Editemployee.html Give employee id to retrieve first name and last name and then edit the contents.
+5.  localhost:8080/editemployeeUI.html Give employee id to retrieve first name and last name and then edit the contents.
