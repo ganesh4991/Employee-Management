@@ -12,6 +12,14 @@ import javax.persistence.Table;
 @Table(name="EmployeeMain")
 public class Employee {
 
+	public String getEmploymentType() {
+		return employmentType;
+	}
+
+	public void setEmploymentType(String employmentType) {
+		this.employmentType = employmentType;
+	}
+
 	public String getSsn() {
 		return ssn;
 	}
@@ -71,6 +79,7 @@ public class Employee {
 	private String gender;
 	private String address;
 	private String emailId;
+	private String employmentType;
 	//private EmploymentType employementTypeDetails;
 	
 	
