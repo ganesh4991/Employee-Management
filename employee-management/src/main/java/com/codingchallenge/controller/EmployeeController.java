@@ -118,6 +118,7 @@ public class EmployeeController {
 		return html;
 	}
 
+	
 	// function to modify the details of an employee. yet to be completed.
 	@RequestMapping(value = "/editemployee", method = RequestMethod.POST)
 	public String editEmployeeById(@RequestParam("id") long id, @RequestParam("firstName") String firstName,
@@ -128,5 +129,31 @@ public class EmployeeController {
 		employees.save(e);
 		return "Employee details updated";
 	}
+
+	// Delete employee by Id
+	@RequestMapping(value = "/deleteemployee", method = RequestMethod.GET)
+	public String deleteEmployeeById(@RequestParam("id") long id) {
+
+		Employee e = employees.findOne(id);
+		if (e==null)
+			return "Invalid Employee Id";
+		String html = "<html><body><form method=\"POST\" enctype=\"html/text\" action=\"/deleteemployee\"><table><tr><td>Employee Id:</td><td><input type=\"text\" name=\"id\" value=\""
+				+ e.getEmployeeId()
+				+ "\" readonly=\"readonly\"/></td></tr><tr><td>First Name:</td><td><input type=\"text\" name=\"firstName\" \" value=\""
+				+ e.getFirstName()
+				+ "\" readonly=\"readonly\" /></td></tr><tr><td>Last Name:</td><td><input type=\"text\" name=\"lastName\" value=\""
+				+ e.getLastName()
+				+ "\" readonly=\"readonly\"/></td></tr><tr><td></td><td><input type=\"submit\" value=\"Delete\" /></td></tr></table></form></body></html>";
+		return html;
+	}
+	
+	// Removing employee from repository
+	@RequestMapping(value = "/deleteemployee", method = RequestMethod.POST)
+	public String deleteEmployeeFromRepository(@RequestParam("id") long id) {
+		Employee e=employees.findOne(id);
+		employees.delete(e);
+		return "Employee "+e.getEmployeeId()+" deleted ";
+	}
+	
 
 }
