@@ -3,9 +3,11 @@ package com.codingchallenge.controller;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.*;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Scanner;
 
 import javax.persistence.EntityManager;
@@ -47,10 +49,21 @@ public class EmployeeController {
 	@RequestMapping(value = "/addemployee", method = RequestMethod.POST)
 	public String addEmployee(@RequestParam("firstName") String firstName,@RequestParam("lastName") String lastName,@RequestParam("address") String address,@RequestParam("middleName") String middleName,@RequestParam("emailId") String emailId,@RequestParam("dob") String dob,@RequestParam("ssn") String ssn,@RequestParam("gender") String gender,@RequestParam("employmentType") String employmentType) {
 		
+		
+		//Date format conversion
+		DateFormat format = new SimpleDateFormat("MM dd, yyyy", Locale.ENGLISH);
+		Date date=null;
+		try {
+			date = format.parse(dob);
+		} catch (ParseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
 		Employee e=new Employee();
 		e.setFirstName(firstName);
 		e.setLastName(lastName);
-		e.setDob(new Date(dob));
+		e.setDob(date);
 		e.setEmailId(emailId);
 		e.setEmploymentType(employmentType);
 		e.setGender(gender);
