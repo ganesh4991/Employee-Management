@@ -35,12 +35,14 @@ public class EmployeeController {
 	@Autowired
 	private EmployeeRepository employees;
 
+	// for raw json values
 	@RequestMapping(value = "/employee", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE) // ,produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Employee> addEmployee(@RequestBody Employee employee) {
 		Employee savedEmployee = employees.save(employee);
 		return new ResponseEntity<Employee>(savedEmployee, HttpStatus.OK);
 	}
 
+	//adding value via file
 	@RequestMapping(method = RequestMethod.POST, value = "/fileupload")
 	public String jsonFileUpload(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
 		String json = "";
@@ -65,12 +67,14 @@ public class EmployeeController {
 		return "File Uploaded";
 	}
 
+	// json output of all employees in the database
 	@RequestMapping(value = "/employee", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Collection<Employee>> getAllEmployees() {
 
 		return new ResponseEntity<Collection<Employee>>(employees.findAll(), HttpStatus.OK);
 	}
 
+	// Fetch an existing employee based on employeeId.
 	@RequestMapping(value = "/editemployee", method = RequestMethod.GET)
 	public String getEmployeeById(@RequestParam("id") long id) {
 		
@@ -79,6 +83,7 @@ public class EmployeeController {
 		return html;
 	}
 	
+	//function to modify the details of an employee. yet to be completed.
 	@RequestMapping(value = "/editemployee", method = RequestMethod.POST)
 	public String editEmployeeById(@RequestParam("id") long id,@RequestParam("firstName") String firstName,@RequestParam("lastName") String lastName) {
 		
