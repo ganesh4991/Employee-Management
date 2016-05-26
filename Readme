@@ -3,3 +3,4 @@
 3.  localhost:8080/addemployeeUI.html to add emplyee details using html page
 4.  localhost:8080/getemployees to retrieve all the values in json format
 5.  localhost:8080/editemployeeUI.html Give employee id to retrieve first name and last name and then edit the contents.
+6.  localhost:8080/deleteemployeeUI.html Provides an interface to delete existing employees in the repository by employee Id.
