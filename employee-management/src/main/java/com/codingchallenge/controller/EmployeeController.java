@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
@@ -40,6 +41,23 @@ public class EmployeeController {
 	public ResponseEntity<Employee> addEmployee(@RequestBody Employee employee) {
 		Employee savedEmployee = employees.save(employee);
 		return new ResponseEntity<Employee>(savedEmployee, HttpStatus.OK);
+	}
+	
+	// Adding employee via html page
+	@RequestMapping(value = "/addemployee", method = RequestMethod.POST)
+	public String addEmployee(@RequestParam("firstName") String firstName,@RequestParam("lastName") String lastName,@RequestParam("address") String address,@RequestParam("middleName") String middleName,@RequestParam("emailId") String emailId,@RequestParam("dob") String dob,@RequestParam("ssn") String ssn,@RequestParam("gender") String gender,@RequestParam("employmentType") String employmentType) {
+		
+		Employee e=new Employee();
+		e.setFirstName(firstName);
+		e.setLastName(lastName);
+		e.setDob(new Date(dob));
+		e.setEmailId(emailId);
+		e.setEmploymentType(employmentType);
+		e.setGender(gender);
+		e.setSsn(ssn);
+		e.setAddress(address);
+		employees.save(e);
+		return "Employee added";
 	}
 
 	//adding value via file
