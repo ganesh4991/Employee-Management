@@ -51,7 +51,7 @@ public class EmployeeController {
 		
 		
 		//Date format conversion
-		DateFormat format = new SimpleDateFormat("MM dd, yyyy", Locale.ENGLISH);
+		DateFormat format = new SimpleDateFormat("MM-dd-yyyy", Locale.ENGLISH);
 		Date date=null;
 		try {
 			date = format.parse(dob);
