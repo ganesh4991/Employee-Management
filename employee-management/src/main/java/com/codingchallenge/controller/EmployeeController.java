@@ -106,6 +106,8 @@ public class EmployeeController {
 	public String getEmployeeById(@RequestParam("id") long id) {
 
 		Employee e = employees.findOne(id);
+		if (e==null)
+			return "Invalid Employee Id";
 		String html = "<html><body><form method=\"POST\" enctype=\"html/text\" action=\"/editemployee\"><table><tr><td>Employee Id:</td><td><input type=\"text\" name=\"id\" value=\""
 				+ e.getEmployeeId()
 				+ "\" readonly=\"readonly\"/></td></tr><tr><td>First Name:</td><td><input type=\"text\" name=\"firstName\" \" value=\""
