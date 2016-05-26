@@ -1,6 +1,5 @@
 package com.codingchallenge.controller;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.*;
@@ -10,15 +9,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
 
-import javax.persistence.EntityManager;
-
-import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.json.JacksonJsonParser;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -44,23 +38,25 @@ public class EmployeeController {
 		Employee savedEmployee = employees.save(employee);
 		return new ResponseEntity<Employee>(savedEmployee, HttpStatus.OK);
 	}
-	
+
 	// Adding employee via html page
 	@RequestMapping(value = "/addemployee", method = RequestMethod.POST)
-	public String addEmployee(@RequestParam("firstName") String firstName,@RequestParam("lastName") String lastName,@RequestParam("address") String address,@RequestParam("middleName") String middleName,@RequestParam("emailId") String emailId,@RequestParam("dob") String dob,@RequestParam("ssn") String ssn,@RequestParam("gender") String gender,@RequestParam("employmentType") String employmentType) {
-		
-		
-		//Date format conversion
+	public String addEmployee(@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName,
+			@RequestParam("address") String address, @RequestParam("middleName") String middleName,
+			@RequestParam("emailId") String emailId, @RequestParam("dob") String dob, @RequestParam("ssn") String ssn,
+			@RequestParam("gender") String gender, @RequestParam("employmentType") String employmentType) {
+
+		// Date format conversion
 		DateFormat format = new SimpleDateFormat("MM-dd-yyyy", Locale.ENGLISH);
-		Date date=null;
+		Date date = null;
 		try {
 			date = format.parse(dob);
 		} catch (ParseException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		
-		Employee e=new Employee();
+
+		Employee e = new Employee();
 		e.setFirstName(firstName);
 		e.setLastName(lastName);
 		e.setDob(date);
@@ -73,7 +69,7 @@ public class EmployeeController {
 		return "Employee added";
 	}
 
-	//adding value via file
+	// adding value via file
 	@RequestMapping(method = RequestMethod.POST, value = "/fileupload")
 	public String jsonFileUpload(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
 		String json = "";
@@ -99,7 +95,7 @@ public class EmployeeController {
 	}
 
 	// json output of all employees in the database
-	@RequestMapping(value = "/employee", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/getemployees", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Collection<Employee>> getAllEmployees() {
 
 		return new ResponseEntity<Collection<Employee>>(employees.findAll(), HttpStatus.OK);
@@ -108,16 +104,23 @@ public class EmployeeController {
 	// Fetch an existing employee based on employeeId.
 	@RequestMapping(value = "/editemployee", method = RequestMethod.GET)
 	public String getEmployeeById(@RequestParam("id") long id) {
-		
-		Employee e=employees.findOne(id);
-		String html="<html><body><form method=\"POST\" enctype=\"html/text\" action=\"/editemployee\"><table><tr><td>Employee Id:</td><td><input type=\"text\" name=\"id\" value=\""+e.getEmployeeId()+"\" readonly=\"readonly\"/></td></tr><tr><td>First Name:</td><td><input type=\"text\" name=\"firstName\" \" value=\""+e.getFirstName()+"\"/></td></tr><tr><td>Last Name:</td><td><input type=\"text\" name=\"lastName\" value=\""+e.getLastName()+"\"/></td></tr><tr><td></td><td><input type=\"submit\" value=\"Save\" /></td></tr></table></form></body></html>";
+
+		Employee e = employees.findOne(id);
+		String html = "<html><body><form method=\"POST\" enctype=\"html/text\" action=\"/editemployee\"><table><tr><td>Employee Id:</td><td><input type=\"text\" name=\"id\" value=\""
+				+ e.getEmployeeId()
+				+ "\" readonly=\"readonly\"/></td></tr><tr><td>First Name:</td><td><input type=\"text\" name=\"firstName\" \" value=\""
+				+ e.getFirstName()
+				+ "\"/></td></tr><tr><td>Last Name:</td><td><input type=\"text\" name=\"lastName\" value=\""
+				+ e.getLastName()
+				+ "\"/></td></tr><tr><td></td><td><input type=\"submit\" value=\"Save\" /></td></tr></table></form></body></html>";
 		return html;
 	}
-	
-	//function to modify the details of an employee. yet to be completed.
+
+	// function to modify the details of an employee. yet to be completed.
 	@RequestMapping(value = "/editemployee", method = RequestMethod.POST)
-	public String editEmployeeById(@RequestParam("id") long id,@RequestParam("firstName") String firstName,@RequestParam("lastName") String lastName) {
-		
+	public String editEmployeeById(@RequestParam("id") long id, @RequestParam("firstName") String firstName,
+			@RequestParam("lastName") String lastName) {
+
 		return "Employee details updated";
 	}
 
